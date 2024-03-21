@@ -18,7 +18,10 @@ axiosApi.interceptors.response.use(
     return res.data;
   },
   error => {
-    const errorMessage = error.response.data.message || 'Server Error';
+    let errorMessage = 'Server Error';
+    if (error?.response?.data?.statusCode === 400) {
+      errorMessage = error.response.data.message[0];
+    }
     Alert.alert(errorMessage);
     throw error;
   },
